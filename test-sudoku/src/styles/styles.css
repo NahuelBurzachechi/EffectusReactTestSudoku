@@ -1,19 +1,62 @@
 .sudoku {
     display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(9, 5vw);
+    grid-template-rows: repeat(9, 5vw);
+    justify-content: center;
+    align-content: center;
+    margin: 0 0 2vw;
+    font-size: calc(2vw + 10px);
 }
 
 .sudokuInput {
-    width: 40px;
-    height: 40px;
     text-align: center;
+    border: 1px solid black;
+    color: black;
 }
 
 .sudokuInputOk {
-    background-color: green;
+  background-color: green;
 }
 
 .sudokuInputNotOk {
-    background-color: red;
+  background-color: red;
 }
+
+button {
+  border-radius: 8px;
+  width: 100px;
+  height: 50px;
+  color: white;
+}
+
+#playButton {
+  background-color: blue;
+}
+
+#resetButton {
+  background-color: red;
+}
+
+#exitButton {
+  background-color: grey;
+}
+
+input:nth-child(n):nth-child(-n+9) {
+    border-top-width: 4px;
+  }
+  input:nth-child(n+73):nth-child(-n+81) {
+    border-bottom-width: 4px;
+  }
+  input:nth-child(3n) {
+    border-right-width: 4px;
+  }
+  input:nth-child(9n+1) {
+    border-left-width: 4px;
+  }
+  input:nth-child(n+19):nth-child(-n+27) {
+    border-bottom-width: 4px;
+  }
+  input:nth-child(n+46):nth-child(-n+54) {
+    border-bottom-width: 4px;
+  }
+

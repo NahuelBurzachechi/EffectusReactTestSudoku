@@ -3,40 +3,50 @@ import "../styles/styles.css";
 
 const SudokuInput = (props) => {
     const [numberValue, setNumberValue] = useState(props.number);
-    const [inputColor, setInputColor] = useState(false)
+    const [inputColor, setInputColor] = useState('sudokuInput')
 
     const handleChange = (event) => {
         const re = /\b[1-9]\b/;
-        if(re.test(event.target.value)){
+        if(re.test(event.target.value) && event.key !== 'Backspace'){
             if(props.handleChangeInput(event.target.value, props.xPosition, props.yPosition)){
-                setInputColor(true)
+                setInputColor('sudokuInputOk')
                 setTimeout(() => {
-                    setInputColor(false)
+                    setInputColor('sudokuInput')
                   }, "2000")
                 setNumberValue(event.target.value)
             }
             else{
-                setInputColor(false)
+                setInputColor('sudokuInputNotOk')
+                setTimeout(() => {
+                    setInputColor('sudokuInput')
+                  }, "2000")
                 setNumberValue(0)
             }  
-        } else {
+        } else if(event.target.value ===''){
+            setNumberValue(0)
+        }
+        else {
             setNumberValue(numberValue)
-            setInputColor(false)
-        }  
+            setInputColor('sudokuInputNotOk')
+            setTimeout(() => {
+                setInputColor('sudokuInput')
+              }, "2000")
+        } 
     }
 
     const handleKeyDown = (event) => {
-        if (event.key === 'Backspace')
+        if (event.key === 'Backspace'){
+            props.handleKey(props.xPosition, props.yPosition)
             setNumberValue(0)
+        }
     }
 
     return (
         <input 
-            className={inputColor ? 'sudokuInput sudokuInputOk' : 'sudokuInput'} 
+            className={inputColor} 
             type="text" 
             value={numberValue === 0 ? " " : numberValue} 
             onChange={handleChange} 
-            disabled={props.number !== 0}
             onKeyDown={handleKeyDown}
         />
     )

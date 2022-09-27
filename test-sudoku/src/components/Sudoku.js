@@ -1,13 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import SudokuInput from "./SudokuInput";
+import SudokuOutPut from "./SudokuOutPut";
 import "../styles/styles.css";
 
-const Sudoku = () => {
-    const [array, setArray] = useState([]);
+const correctMessages = ["You are the best, around...", 
+                        "You are awesome", 
+                        "Yes! that's right!", 
+                        "Is it possible for you to fail?"]
 
-    useEffect(() => {
-        CreateMatrix();
-    }, []);
+const failMessages = ["Don't worry, you need to try again",
+                      "Next time you'll do better",
+                      "No one is born knowing everything"]
+
+const Sudoku = () => {
+    const [array, setArray] = useState();
+    const [toPlay, setToPlay] = useState(false);
+    const [percentajeCount, setPercentajeCount] = useState(0)
+    const [outPutText, setOutPutText] = useState("Welcome to the Sudoku World")
 
     const CreateMatrix = () => {
         var array = []
@@ -15,10 +24,11 @@ const Sudoku = () => {
             array.push([...new Array(9).fill(0)])
         }
         GenerateRandomNumbers(array)
-        setArray(array)
+        setArray([...array])
+        setToPlay(true)
     }
 
-    const GenerateRandomNumbers = (array) => {      
+    const GenerateRandomNumbers = (array) => {
         let isFirst = true
         let numbersCount = 0
         for (var x = 0; x < 9; x++){
@@ -41,7 +51,7 @@ const Sudoku = () => {
     }
 
     const InvalidSudoku = (array, number , xPosition, yPosition, isFirst) => {
-         if(DuplicateRow(array,number, yPosition))
+         if(DuplicateRow(array, number, yPosition))
             return true;
          if(DuplicateColumn(array, number, xPosition))  
             return true;
@@ -50,7 +60,7 @@ const Sudoku = () => {
         return false
     }
 
-    const DuplicateRow = (array,number, yPosition) => {
+    const DuplicateRow = (array, number, yPosition) => {
         let rowArray = [];
         for (var x = 0; x < 9; x++){
             if(rowArray.includes(number)){
@@ -100,27 +110,62 @@ const Sudoku = () => {
 
     const handleChangeInput = (value, xPosition, yPosition) => {
         let isFirst = false
+        let response = false
         if(InvalidSudoku(array, parseInt(value), xPosition, yPosition, isFirst)){
-            return false
+             array[xPosition][yPosition] = 0
+            setOutPutText(failMessages[Math.round(Math.random() * 2)])
         }
         else{
+            setOutPutText(correctMessages[Math.round(Math.random() * 3)])
+            response = true
             array[xPosition][yPosition] = parseInt(value)
-            setArray(array)
-            return true
         }
-            
+        setArray([...array])
+        Percentaje()
+        return response
+    }
+
+    const Percentaje = () => {
+        var count = -27
+        array.map(x => x.map(y => y !== 0 ? count++ : count += 0))
+        let percentaje = (count * 100) / 54
+        setPercentajeCount(percentaje)
+    }
+
+    const handleResetButton = () => {
+        setToPlay(false)
+        setTimeout(() => {
+            CreateMatrix()
+            setPercentajeCount(0)
+          }, "100")
+    }
+
+    const handleKeyDown = (xPosition, yPosition) => {
+            array[xPosition][yPosition] = 0
+            setArray([...array])
+            Percentaje()
     }
 
     return(
-        <div className="sudoku">
-            {array.map((x, xIndex)=> x.map((y, yIndex) => 
-            <SudokuInput 
-                key={xIndex + yIndex} 
-                number={y} 
-                xPosition={xIndex} 
-                yPosition={yIndex} 
-                handleChangeInput={handleChangeInput}/>
-            ))}
+        <div>
+            {!toPlay && <button id='playButton' type="button" onClick={() => CreateMatrix()}>Play</button>}
+            {toPlay && <div>
+                <div className="sudoku">
+                    {array.map((x, xIndex)=> x.map((y, yIndex) => 
+                        <SudokuInput 
+                            key={xIndex + yIndex} 
+                            number={y} 
+                            xPosition={xIndex} 
+                            yPosition={yIndex} 
+                            handleChangeInput={handleChangeInput}
+                            handleKey={handleKeyDown}
+                        />
+                    ))}
+                </div>
+                <button id='resetButton' type="button" onClick={() => handleResetButton()}>Reset</button>
+                <button id='exitButton' type="button" onClick={() => setToPlay(false)}>Exit</button>
+                <SudokuOutPut percentaje={percentajeCount} outPutText={outPutText}/>
+            </div>}            
         </div>
     )
 }
