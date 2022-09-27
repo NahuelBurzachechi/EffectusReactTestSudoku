@@ -4,9 +4,9 @@ import Sudoku from "./components/Sudoku";
 function App() {
   return (
     <div className="App">
-      <header className="wrapper">
+      <div className="wrapper">
         <Sudoku/>
-      </header>
+      </div>
     </div>
   );
 }

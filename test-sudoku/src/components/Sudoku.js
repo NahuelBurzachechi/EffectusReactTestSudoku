@@ -5,7 +5,7 @@ import SudokuRules from "./SudokuRules";
 import "../styles/styles.css";
 
 const correctMessages = ["You are the best, around...", 
-                        "You are awesome", 
+                        "You are amazing!", 
                         "Yes! that's right!", 
                         "Is it possible for you to fail?"]
 
@@ -26,6 +26,7 @@ const Sudoku = () => {
     const [toPlay, setToPlay] = useState(false);
     const [percentajeCount, setPercentajeCount] = useState(0)
     const [outPutText, setOutPutText] = useState("Welcome to Sudoku Effectus")
+    const [isLoading, setIsLoading] = useState(false)
 
     const CreateMatrix = () => {
         var array = []
@@ -143,23 +144,26 @@ const Sudoku = () => {
 
     const HandleResetButton = () => {
         setToPlay(false)
+        setIsLoading(true)
+        setOutPutText("Welcome to Sudoku Effectus")
         setTimeout(() => {
             CreateMatrix()
             setPercentajeCount(0)
+            setIsLoading(false)
           }, "100")
     }
 
     const HandleKeyDown = (xPosition, yPosition) => {
             array[xPosition][yPosition] = 0
             setArray([...array])
-            setOutPutText("Its okey, it's okey, you can try again")
+            setOutPutText("It's okey, it's okey, you can try again")
             Percentaje()
     }
-
     return(
         <div>
-            {!toPlay ? 
-                <div>
+            {!toPlay ? isLoading ? <span>Loading...</span> :
+                <div className="first-screen-wrapper">
+                    <img id="effectus-logo" src="https://media-exp1.licdn.com/dms/image/C4D0BAQHsFWDmHWY1mA/company-logo_200_200/0/1611338032428?e=1672272000&v=beta&t=SK7f6hKBznU6VPDrdLfFrSCO2gPviC5dSGhjdiQ_zRc" alt="Effectus Logo"/>
                     <button id='playButton' type="button" onClick={() => CreateMatrix()}>Play</button>
                     <SudokuRules rules={rules}/>
                 </div> :

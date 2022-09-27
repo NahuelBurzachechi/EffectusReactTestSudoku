@@ -2,6 +2,13 @@
   text-align: center;
 }
 
+.first-screen-wrapper{
+  display: flex;
+  text-align: justify;
+  flex-direction: column;
+  align-items: center
+}
+
 .wrapper {
   text-align: center;
   background-color: #282c34;
@@ -81,6 +88,7 @@ input:nth-child(n):nth-child(-n+9) {
   }
   
   #playButton {
+    margin: 10px;
     background-color: blue;
   }
   
@@ -92,7 +100,14 @@ input:nth-child(n):nth-child(-n+9) {
     background-color: grey;
   }
 
-  @media only screen and (max-width: 768px) {
+  #effectus-logo {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  @media only screen and (max-width: 910px) {
     .sudokuOutput {
       width: 250px;
       height: 50px;
@@ -113,3 +128,27 @@ input:nth-child(n):nth-child(-n+9) {
       font-size: 10px;
     }
   }
+
+  @media only screen and (max-width: 270px) {
+    .sudokuOutput {
+      width: 145px;
+      height: 50px;
+      background-color: grey;
+      margin: 10px;
+      border: 0.5vw solid black;
+      border-radius: 8px;
+      padding: 10px;
+      font-size: 8px;
+    }
+    .sudoku {
+      display: grid;
+      grid-template-columns: repeat(9, 15px);
+      grid-template-rows: repeat(9, 15px);
+      justify-content: center;
+      align-content: center;
+      margin: 0 0 2vw;
+      font-size: 8px;
+    }
+  }
+
+  
