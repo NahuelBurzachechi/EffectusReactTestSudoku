@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import SudokuInput from "./SudokuInput";
+import "../styles/styles.css";
 
 const Sudoku = () => {
     const [array, setArray] = useState([]);
@@ -17,6 +19,7 @@ const Sudoku = () => {
     }
 
     const GenerateRandomNumbers = (array) => {      
+        let isFirst = true
         let numbersCount = 0
         for (var x = 0; x < 9; x++){
             while (numbersCount < 3){
@@ -24,7 +27,7 @@ const Sudoku = () => {
                 let yPosition = Math.round(Math.random() * 8);
                 let randomNumber = Math.round(Math.random() * 9);
                 if(array[xPosition][yPosition] === 0){
-                    if(InvalidSudoku(array, randomNumber, xPosition, yPosition)){
+                    if(InvalidSudoku(array, randomNumber, xPosition, yPosition, isFirst)){
                         array[xPosition][yPosition] = 0;
                         continue;
                     }else{
@@ -37,12 +40,12 @@ const Sudoku = () => {
         }
     }
 
-    const InvalidSudoku = (array,number ,xPosition, yPosition) => {
+    const InvalidSudoku = (array, number , xPosition, yPosition, isFirst) => {
          if(DuplicateRow(array,number, yPosition))
             return true;
          if(DuplicateColumn(array, number, xPosition))  
             return true;
-         if(DuplicateBox(array, number, xPosition, yPosition))
+         if(DuplicateBox(array, number, xPosition, yPosition, isFirst))
             return true;
         return false
     }
@@ -71,7 +74,7 @@ const Sudoku = () => {
         return false
     }
 
-    const DuplicateBox = (array, number, xPosition, yPosition) => {
+    const DuplicateBox = (array, number, xPosition, yPosition, isFirst) => {
         let xPositionBox = Math.floor(xPosition / 3);
         let yPositionBox = Math.floor(yPosition / 3);
         let arrayBoxNumbers = [];
@@ -83,7 +86,7 @@ const Sudoku = () => {
                 if(arrayBoxNumbers.includes(number)){
                     return true
                 } else {
-                    if (array[rowX][columnY] !== 0){
+                    if (array[rowX][columnY] !== 0 && isFirst){
                         arrayBoxNumbersCount++
                     }
                     arrayBoxNumbers.push(array[rowX][columnY])
@@ -95,9 +98,30 @@ const Sudoku = () => {
         return false
     }
 
+    const handleChangeInput = (value, xPosition, yPosition) => {
+        let isFirst = false
+        if(InvalidSudoku(array, parseInt(value), xPosition, yPosition, isFirst)){
+            return false
+        }
+        else{
+            array[xPosition][yPosition] = parseInt(value)
+            setArray(array)
+            return true
+        }
+            
+    }
 
     return(
-        <p>{array.map(x => <p>{x}</p>)}</p>
+        <div className="sudoku">
+            {array.map((x, xIndex)=> x.map((y, yIndex) => 
+            <SudokuInput 
+                key={xIndex + yIndex} 
+                number={y} 
+                xPosition={xIndex} 
+                yPosition={yIndex} 
+                handleChangeInput={handleChangeInput}/>
+            ))}
+        </div>
     )
 }
 
