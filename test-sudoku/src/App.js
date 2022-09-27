@@ -1,10 +1,10 @@
-import './App.css';
+import './styles/styles.css';
 import Sudoku from "./components/Sudoku";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="wrapper">
         <Sudoku/>
       </header>
     </div>

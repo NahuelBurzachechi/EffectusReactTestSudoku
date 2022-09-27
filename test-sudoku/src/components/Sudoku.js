@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import SudokuInput from "./SudokuInput";
 import SudokuOutPut from "./SudokuOutPut";
+import SudokuRules from "./SudokuRules";
 import "../styles/styles.css";
 
 const correctMessages = ["You are the best, around...", 
@@ -12,11 +13,19 @@ const failMessages = ["Don't worry, you need to try again",
                       "Next time you'll do better",
                       "No one is born knowing everything"]
 
+const rules = ["Sudoku grid consists of 9x9 spaces",
+                       "You can use only numbers from 1 to 9",
+                       "Each 3×3 block can only contain numbers from 1 to 9",
+                       "Each vertical column can only contain numbers from 1 to 9",
+                       "Each horizontal row can only contain numbers from 1 to 9",
+                       "Each number in the 3×3 block, vertical column or horizontal row can be used only once",
+                       "The game is over when the whole Sudoku grid is correctly filled with numbers"]
+
 const Sudoku = () => {
     const [array, setArray] = useState();
     const [toPlay, setToPlay] = useState(false);
     const [percentajeCount, setPercentajeCount] = useState(0)
-    const [outPutText, setOutPutText] = useState("Welcome to the Sudoku World")
+    const [outPutText, setOutPutText] = useState("Welcome to Sudoku Effectus")
 
     const CreateMatrix = () => {
         var array = []
@@ -132,7 +141,7 @@ const Sudoku = () => {
         setPercentajeCount(percentaje)
     }
 
-    const handleResetButton = () => {
+    const HandleResetButton = () => {
         setToPlay(false)
         setTimeout(() => {
             CreateMatrix()
@@ -140,16 +149,22 @@ const Sudoku = () => {
           }, "100")
     }
 
-    const handleKeyDown = (xPosition, yPosition) => {
+    const HandleKeyDown = (xPosition, yPosition) => {
             array[xPosition][yPosition] = 0
             setArray([...array])
+            setOutPutText("Its okey, it's okey, you can try again")
             Percentaje()
     }
 
     return(
         <div>
-            {!toPlay && <button id='playButton' type="button" onClick={() => CreateMatrix()}>Play</button>}
-            {toPlay && <div>
+            {!toPlay ? 
+                <div>
+                    <button id='playButton' type="button" onClick={() => CreateMatrix()}>Play</button>
+                    <SudokuRules rules={rules}/>
+                </div> :
+            <div>
+                 <SudokuOutPut percentaje={percentajeCount} outPutText={outPutText}/>
                 <div className="sudoku">
                     {array.map((x, xIndex)=> x.map((y, yIndex) => 
                         <SudokuInput 
@@ -158,13 +173,12 @@ const Sudoku = () => {
                             xPosition={xIndex} 
                             yPosition={yIndex} 
                             handleChangeInput={handleChangeInput}
-                            handleKey={handleKeyDown}
+                            handleKey={HandleKeyDown}
                         />
                     ))}
                 </div>
-                <button id='resetButton' type="button" onClick={() => handleResetButton()}>Reset</button>
+                <button id='resetButton' type="button" onClick={() => HandleResetButton()}>Reset</button>
                 <button id='exitButton' type="button" onClick={() => setToPlay(false)}>Exit</button>
-                <SudokuOutPut percentaje={percentajeCount} outPutText={outPutText}/>
             </div>}            
         </div>
     )
