@@ -103,12 +103,24 @@ const Sudoku = (props) => {
                 {Math.round(percentajeCount) === 100 ? <div>Congratulations!! You win!!</div> :
                 !toPlay ? isLoading ? <span>Loading...</span> :
                    <div className="first-screen-wrapper">
-                       <img id="effectus-logo" src={imagesUrl.EFFECTUSLOGO} alt="Effectus Logo"/>
-                       <button id='playButton' type="button" onClick={() => CreateMatrix()}>Play</button>
-                       <SudokuRules rules={firstScreenConstants.RULES}/>
+                       <img 
+                            id="effectus-logo" 
+                            src={imagesUrl.EFFECTUSLOGO} 
+                            alt="Effectus Logo"/>
+                       <button 
+                            id='playButton' 
+                            type="button" 
+                            onClick={() => CreateMatrix()}>
+                                Play
+                        </button>
+                       <SudokuRules 
+                            rules={firstScreenConstants.RULES}/>
                     </div> :
                 <div>
-                    <SudokuOutPut percentaje={percentajeCount} outPutText={outPutText}/>
+                    <SudokuOutPut 
+                        percentaje={percentajeCount} 
+                        outPutText={outPutText}
+                    />
                     <div className="sudoku">
                         {array.map((x, xIndex)=> x.map((y, yIndex) => 
                           <SudokuInput 
@@ -121,8 +133,18 @@ const Sudoku = (props) => {
                           />
                         ))}
                     </div>
-                    <button id='resetButton' type="button" onClick={() => HandleResetButton()}>Reset</button>
-                    <button id='exitButton' type="button" onClick={() => HandleExitButton()}>Exit</button>
+                    <button 
+                        id='resetButton' 
+                        type="button" 
+                        onClick={() => HandleResetButton()}>
+                            Reset
+                    </button>
+                    <button 
+                        id='exitButton' 
+                        type="button" 
+                        onClick={() => HandleExitButton()}>
+                            Exit
+                    </button>
                 </div>}  
             </div>         
         </div>
