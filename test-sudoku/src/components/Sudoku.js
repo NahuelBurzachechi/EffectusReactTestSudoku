@@ -3,29 +3,13 @@ import SudokuInput from "./SudokuInput";
 import SudokuOutPut from "./SudokuOutPut";
 import SudokuRules from "./SudokuRules";
 import "../styles/styles.css";
-
-const correctMessages = ["You are the best, around...", 
-                        "You are amazing!", 
-                        "Yes! that's right!", 
-                        "Is it possible for you to fail?"]
-
-const failMessages = ["Don't worry, you need to try again",
-                      "Next time you'll do better",
-                      "No one is born knowing everything"]
-
-const rules = ["Sudoku grid consists of 9x9 spaces",
-                       "You can use only numbers from 1 to 9",
-                       "Each 3×3 block can only contain numbers from 1 to 9",
-                       "Each vertical column can only contain numbers from 1 to 9",
-                       "Each horizontal row can only contain numbers from 1 to 9",
-                       "Each number in the 3×3 block, vertical column or horizontal row can be used only once",
-                       "The game is over when the whole Sudoku grid is correctly filled with numbers"]
+import {firstScreenConstants} from "../constants/Constants";
 
 const Sudoku = () => {
     const [array, setArray] = useState();
     const [toPlay, setToPlay] = useState(false);
     const [percentajeCount, setPercentajeCount] = useState(0)
-    const [outPutText, setOutPutText] = useState("Welcome to Sudoku Effectus")
+    const [outPutText, setOutPutText] = useState(firstScreenConstants.WELCOMETOSUDOKUEFFECTUS)
     const [isLoading, setIsLoading] = useState(false)
 
     const CreateMatrix = () => {
@@ -51,7 +35,7 @@ const Sudoku = () => {
                         array[xPosition][yPosition] = 0;
                         continue;
                     }else{
-                        array[xPosition][yPosition] = randomNumber
+                        array[xPosition][yPosition] = randomNumber + "firstInput"
                         numbersCount++;
                     }
                 }
@@ -71,13 +55,11 @@ const Sudoku = () => {
     }
 
     const DuplicateRow = (array, number, yPosition) => {
-        let rowArray = [];
+        let rowArray = [];  
         for (var x = 0; x < 9; x++){
-            if(rowArray.includes(number)){
+            rowArray.push(array[x][yPosition]);
+            if(rowArray.includes(number) || rowArray.includes(number + "firstInput"))
                 return true;
-            } else {
-                rowArray.push(array[x][yPosition]);
-            }
         }
         return false
     }
@@ -85,11 +67,9 @@ const Sudoku = () => {
     const DuplicateColumn = (array, number, xPosition) => {
         let columnArray = [];
         for (var y = 0; y < 9; y++){
-            if(columnArray.includes(number)){
+            columnArray.push(array[xPosition][y]);
+            if(columnArray.includes(number) || columnArray.includes(number + "firstInput"))
                 return true;
-            } else {
-                columnArray.push(array[xPosition][y]);
-            }
         }
         return false
     }
@@ -103,7 +83,7 @@ const Sudoku = () => {
             for (var y = 0; y < 3; y++){
                 let rowX = x + 3 * xPositionBox
                 let columnY = y + 3 * yPositionBox
-                if(arrayBoxNumbers.includes(number)){
+                if(arrayBoxNumbers.includes(number) || arrayBoxNumbers.includes(number + "firstInput")){
                     return true
                 } else {
                     if (array[rowX][columnY] !== 0 && isFirst){
@@ -118,15 +98,15 @@ const Sudoku = () => {
         return false
     }
 
-    const handleChangeInput = (value, xPosition, yPosition) => {
+    const HandleChangeInput = (value, xPosition, yPosition) => {
         let isFirst = false
         let response = false
         if(InvalidSudoku(array, parseInt(value), xPosition, yPosition, isFirst)){
              array[xPosition][yPosition] = 0
-            setOutPutText(failMessages[Math.round(Math.random() * 2)])
+            setOutPutText(firstScreenConstants.FAILMESSAGES[Math.round(Math.random() * 2)])
         }
         else{
-            setOutPutText(correctMessages[Math.round(Math.random() * 3)])
+            setOutPutText(firstScreenConstants.CORRECTMESSAGES[Math.round(Math.random() * 3)])
             response = true
             array[xPosition][yPosition] = parseInt(value)
         }
@@ -145,12 +125,18 @@ const Sudoku = () => {
     const HandleResetButton = () => {
         setToPlay(false)
         setIsLoading(true)
-        setOutPutText("Welcome to Sudoku Effectus")
+        setOutPutText(firstScreenConstants.WELCOMETOSUDOKUEFFECTUS)
         setTimeout(() => {
             CreateMatrix()
             setPercentajeCount(0)
             setIsLoading(false)
           }, "100")
+    }
+
+    const HandleExitButton = () => {
+        setToPlay(false)
+        setOutPutText(firstScreenConstants.WELCOMETOSUDOKUEFFECTUS)
+        setPercentajeCount(0)
     }
 
     const HandleKeyDown = (xPosition, yPosition) => {
@@ -165,7 +151,7 @@ const Sudoku = () => {
                 <div className="first-screen-wrapper">
                     <img id="effectus-logo" src="https://media-exp1.licdn.com/dms/image/C4D0BAQHsFWDmHWY1mA/company-logo_200_200/0/1611338032428?e=1672272000&v=beta&t=SK7f6hKBznU6VPDrdLfFrSCO2gPviC5dSGhjdiQ_zRc" alt="Effectus Logo"/>
                     <button id='playButton' type="button" onClick={() => CreateMatrix()}>Play</button>
-                    <SudokuRules rules={rules}/>
+                    <SudokuRules rules={firstScreenConstants.RULES}/>
                 </div> :
             <div>
                  <SudokuOutPut percentaje={percentajeCount} outPutText={outPutText}/>
@@ -176,13 +162,13 @@ const Sudoku = () => {
                             number={y} 
                             xPosition={xIndex} 
                             yPosition={yIndex} 
-                            handleChangeInput={handleChangeInput}
-                            handleKey={HandleKeyDown}
+                            HandleChangeInput={HandleChangeInput}
+                            HandleKey={HandleKeyDown}
                         />
                     ))}
                 </div>
                 <button id='resetButton' type="button" onClick={() => HandleResetButton()}>Reset</button>
-                <button id='exitButton' type="button" onClick={() => setToPlay(false)}>Exit</button>
+                <button id='exitButton' type="button" onClick={() => HandleExitButton()}>Exit</button>
             </div>}            
         </div>
     )
