@@ -1,0 +1,210 @@
+.App {
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+}
+
+.App-blur {
+  font-family: 'Roboto', sans-serif;
+  filter: blur(1px);
+}
+
+.first-screen-wrapper{
+  display: flex;
+  text-align: justify;
+  flex-direction: column;
+  align-items: center
+}
+
+.wrapper {
+  text-align: center;
+  background-color: #B7C4CF;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.sudokuWrapper {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.sudoku {
+    display: grid;
+    grid-template-columns: repeat(9, 3vw);
+    grid-template-rows: repeat(9, 3vw);
+    justify-content: center;
+    align-content: center;
+    margin: 0 0 2vw;
+    font-size: calc(2vw + 10px);
+}
+
+li{
+  text-align: left;
+}
+.sudokuInput {
+    text-align: center;
+    border: 1px solid black;
+    color: black;
+}
+
+.sudokuInputOk {
+  background-color: rgb(139, 245, 139);
+}
+
+.sudokuInputNotOk {
+  background-color: rgb(247, 72, 72);
+}
+
+input{
+  text-align: center;
+}
+
+input:nth-child(n):nth-child(-n+9) {
+    border-top-width: 4px;
+  }
+  input:nth-child(n+73):nth-child(-n+81) {
+    border-bottom-width: 4px;
+  }
+  input:nth-child(3n) {
+    border-right-width: 4px;
+  }
+  input:nth-child(9n+1) {
+    border-left-width: 4px;
+  }
+  input:nth-child(n+19):nth-child(-n+27) {
+    border-bottom-width: 4px;
+  }
+  input:nth-child(n+46):nth-child(-n+54) {
+    border-bottom-width: 4px;
+  }
+
+  .sudokuOutput {
+    width: 350px;
+    background-color: #F3E0B5;
+    margin: 10px;
+    border: 0.5vw solid black;
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 20px;
+    color:rgb(20, 20, 20)
+  }
+
+  button {
+    border-radius: 8px;
+    width: 100px;
+    height: 50px;
+    color: rgb(27, 25, 25);
+  }
+  
+  #playButton {
+    margin: 10px;
+    background-color: #7D6E83;
+    color: white;
+  }
+  
+  #resetButton {
+    margin-right: 5px;
+    background-color: #FECD70;
+  }
+  
+  #exitButton {
+    background-color: #EB1D36;
+    color: white;
+  }
+
+  #effectus-logo {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 13px;
+    border: 0.5vw solid black;
+  }
+
+  .sudokuDialogWrapper {
+    position: absolute;
+    left: 50vw;
+    top: 15vw;
+    transform: translate(-50%, -50%);
+    z-index: 9;
+    width: 500px;
+  }
+
+  .sudokuRules {
+    border: 0.5vw solid black;
+    border-radius: 8px;
+    background-color: #D0B8A8;
+    padding: 5px;
+    color: #553939;
+    font-size: calc(6px + 2vmin);
+  }
+
+  @media only screen and (max-width: 910px) {
+    .sudokuOutput {
+      width: 250px;
+      height: 50px;
+      margin: 10px;
+      font-size: 12px;
+    }
+    
+    .sudoku {
+      grid-template-columns: repeat(9, 30px);
+      grid-template-rows: repeat(9, 30px);
+      margin: 0 0 2vw;
+      font-size: 10px;
+    }
+
+    .sudokuDialogWrapper {
+      width: 300px;
+      top: 40vw;
+      left: 50vw;
+    }
+
+    .sudokuDialog {
+      z-index: 9
+    }
+  }
+
+  @media only screen and (max-width: 500px) {
+    .sudokuDialogWrapper {
+      width: 300px;
+      top: 40vw;
+    }
+  }
+
+  @media only screen and (max-width: 270px) {
+    .sudokuDialogWrapper{
+      width: 150px;
+      top: 50vw;
+      left: 50vw;
+    }
+
+    .button {
+      width: 5px;
+    }
+
+    .sudokuDialog {
+      z-index: 9
+    }
+
+    .sudokuOutput {
+      width: 145px;
+      font-size: 8px;
+    }
+
+    .sudoku {
+      grid-template-columns: repeat(9, 15px);
+      grid-template-rows: repeat(9, 15px);
+      font-size: 8px;
+    }
+  }
+
+  
