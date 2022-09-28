@@ -35,7 +35,7 @@ const SudokuInput = (props) => {
 
     const HandleKeyDown = (event) => {
         if (event.key === 'Backspace'){
-            props.handleKey(props.xPosition, props.yPosition)
+            props.HandleKey(props.xPosition, props.yPosition)
             setNumberValue(0)
         }
     }

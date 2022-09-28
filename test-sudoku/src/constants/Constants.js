@@ -21,7 +21,6 @@ export const firstScreenConstants = {
 
 }
 
-
 export const secondScreenConstants = {
     
     SUDOKUINPUTCOLORDEFAULT: 'sudokuInput',
@@ -29,4 +28,9 @@ export const secondScreenConstants = {
     SUDOKUINPUTCOLOROK: 'sudokuInputOk',
 
     SUDOKUINPUTCOLORNOTOK: 'sudokuInputNotOk'
+}
+
+export const imagesUrl = {
+    
+    EFFECTUSLOGO: 'https://media-exp1.licdn.com/dms/image/C4D0BAQHsFWDmHWY1mA/company-logo_200_200/0/1611338032428?e=1672272000&v=beta&t=SK7f6hKBznU6VPDrdLfFrSCO2gPviC5dSGhjdiQ_zRc'
 }
