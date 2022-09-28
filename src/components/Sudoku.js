@@ -2,17 +2,21 @@ import React, { useState } from "react";
 import SudokuInput from "./SudokuInput";
 import SudokuOutPut from "./SudokuOutPut";
 import SudokuRules from "./SudokuRules";
+import SudokuDialog from "./SudokuDialog";
 import {InvalidSudoku} from "../functions/InvalidSudokuFunction";
 import { GenerateRandomNumbers } from "../functions/GenerateRandomNumbersFunction";
 import "../styles/styles.css";
-import {firstScreenConstants, imagesUrl} from "../constants/Constants";
+import {firstScreenConstants, imagesUrl , dialogText} from "../constants/Constants";
 
-const Sudoku = () => {
+const Sudoku = (props) => {
     const [array, setArray] = useState();
     const [toPlay, setToPlay] = useState(false);
     const [percentajeCount, setPercentajeCount] = useState(0)
     const [outPutText, setOutPutText] = useState(firstScreenConstants.WELCOMETOSUDOKUEFFECTUS)
     const [isLoading, setIsLoading] = useState(false)
+    const [isOpenDialog, setIsOpenDialog] = useState(false)
+    const [dialogTextOutPut, setDialogTextoutPut] = useState()
+    const [isBlured, setIsBlured] = useState(false)
 
     const CreateMatrix = () => {
         var array = []
@@ -48,21 +52,35 @@ const Sudoku = () => {
         setPercentajeCount(percentaje)
     }
 
-    const HandleResetButton = () => {
-        setToPlay(false)
-        setIsLoading(true)
-        setOutPutText(firstScreenConstants.WELCOMETOSUDOKUEFFECTUS)
-        setTimeout(() => {
-            CreateMatrix()
+    const HandleDialogResponse = (response, dialogTextOutPut) => {
+        setIsOpenDialog(false)
+        if(response){
+            setToPlay(false)
+            if(dialogTextOutPut === dialogText.DIALOGTEXTRESET){
+                setIsLoading(true)
+                setOutPutText(firstScreenConstants.WELCOMETOSUDOKUEFFECTUS)
+                setTimeout(() => {
+                    CreateMatrix()
+                    setIsLoading(false)
+            }, "100")
+            } else{
+                setOutPutText(firstScreenConstants.WELCOMETOSUDOKUEFFECTUS)
+            }
             setPercentajeCount(0)
-            setIsLoading(false)
-          }, "100")
+        }
+        setIsBlured(false)
+    }
+
+    const HandleResetButton = () => {
+        setIsBlured(true)
+        setDialogTextoutPut(dialogText.DIALOGTEXTRESET)
+        setIsOpenDialog(true)
     }
 
     const HandleExitButton = () => {
-        setToPlay(false)
-        setOutPutText(firstScreenConstants.WELCOMETOSUDOKUEFFECTUS)
-        setPercentajeCount(0)
+        setIsBlured(true)
+        setDialogTextoutPut(dialogText.DIALOGTEXTEXIT)
+        setIsOpenDialog(true)
     }
 
     const HandleKeyDown = (xPosition, yPosition) => {
@@ -73,30 +91,40 @@ const Sudoku = () => {
     }
     return(
         <div>
-            {Math.round(percentajeCount) === 100 ? <div>Congratulations!! You win!!</div> :
-            !toPlay ? isLoading ? <span>Loading...</span> :
-                <div className="first-screen-wrapper">
-                    <img id="effectus-logo" src={imagesUrl.EFFECTUSLOGO} alt="Effectus Logo"/>
-                    <button id='playButton' type="button" onClick={() => CreateMatrix()}>Play</button>
-                    <SudokuRules rules={firstScreenConstants.RULES}/>
-                </div> :
-            <div>
-                 <SudokuOutPut percentaje={percentajeCount} outPutText={outPutText}/>
-                <div className="sudoku">
-                    {array.map((x, xIndex)=> x.map((y, yIndex) => 
-                        <SudokuInput 
+            {isOpenDialog && 
+                <div className="sudokuDialogWrapper"> 
+                    <SudokuDialog 
+                        openDialog={isOpenDialog} 
+                        dialogText={dialogTextOutPut} 
+                        handleDialogResponse={HandleDialogResponse}/>
+                </div>
+            }
+            <div className={isBlured ? "sudokuWrapper App-blur" : "sudokuWrapper" }>
+                {Math.round(percentajeCount) === 100 ? <div>Congratulations!! You win!!</div> :
+                !toPlay ? isLoading ? <span>Loading...</span> :
+                   <div className="first-screen-wrapper">
+                       <img id="effectus-logo" src={imagesUrl.EFFECTUSLOGO} alt="Effectus Logo"/>
+                       <button id='playButton' type="button" onClick={() => CreateMatrix()}>Play</button>
+                       <SudokuRules rules={firstScreenConstants.RULES}/>
+                    </div> :
+                <div>
+                    <SudokuOutPut percentaje={percentajeCount} outPutText={outPutText}/>
+                    <div className="sudoku">
+                        {array.map((x, xIndex)=> x.map((y, yIndex) => 
+                          <SudokuInput 
                             key={xIndex + yIndex} 
                             number={y} 
                             xPosition={xIndex} 
                             yPosition={yIndex} 
-                            HandleChangeInput={HandleChangeInput}
-                            HandleKey={HandleKeyDown}
-                        />
-                    ))}
-                </div>
-                <button id='resetButton' type="button" onClick={() => HandleResetButton()}>Reset</button>
-                <button id='exitButton' type="button" onClick={() => HandleExitButton()}>Exit</button>
-            </div>}            
+                            handleChangeInput={HandleChangeInput}
+                            handleKey={HandleKeyDown}
+                          />
+                        ))}
+                    </div>
+                    <button id='resetButton' type="button" onClick={() => HandleResetButton()}>Reset</button>
+                    <button id='exitButton' type="button" onClick={() => HandleExitButton()}>Exit</button>
+                </div>}  
+            </div>         
         </div>
     )
 }

@@ -9,7 +9,7 @@ const SudokuInput = (props) => {
     const HandleChange = (event) => {
         const re = /\b[1-9]\b/;
         if(re.test(event.target.value) && event.key !== 'Backspace'){
-            if(props.HandleChangeInput(event.target.value, props.xPosition, props.yPosition)){
+            if(props.handleChangeInput(event.target.value, props.xPosition, props.yPosition)){
                 ChangeInputColor(secondScreenConstants.SUDOKUINPUTCOLOROK)
                 setNumberValue(event.target.value)
             }
@@ -35,7 +35,7 @@ const SudokuInput = (props) => {
 
     const HandleKeyDown = (event) => {
         if (event.key === 'Backspace'){
-            props.HandleKey(props.xPosition, props.yPosition)
+            props.handleKey(props.xPosition, props.yPosition)
             setNumberValue(0)
         }
     }
