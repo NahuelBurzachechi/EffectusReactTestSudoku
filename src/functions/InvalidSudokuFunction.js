@@ -32,7 +32,6 @@ export const DuplicateBox = (array, number, xPosition, yPosition, isFirst) => {
     let xPositionBox = Math.floor(xPosition / 3);
     let yPositionBox = Math.floor(yPosition / 3);
     let arrayBoxNumbers = [];
-    let arrayBoxNumbersCount = 0
     for (var x = 0; x < 3; x++){
         for (var y = 0; y < 3; y++){
             let rowX = x + 3 * xPositionBox
@@ -40,12 +39,7 @@ export const DuplicateBox = (array, number, xPosition, yPosition, isFirst) => {
             arrayBoxNumbers.push(array[rowX][columnY])
             if(arrayBoxNumbers.includes(number) || arrayBoxNumbers.includes(number + "firstInput")){
                 return true
-            } else {
-                if (array[rowX][columnY] !== 0 && isFirst)
-                    arrayBoxNumbersCount++
-            } if (arrayBoxNumbersCount === 3){
-                return true
-            }
+            } 
         }
     }
     return false

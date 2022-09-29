@@ -6,6 +6,7 @@ import SudokuDialog from "./SudokuDialog";
 import { InvalidSudoku } from "../functions/InvalidSudokuFunction";
 import { GenerateRandomNumbers } from "../functions/GenerateRandomNumbersFunction";
 import { firstScreenConstants, imagesUrl , dialogText } from "../constants/Constants";
+import { CleanSudoku } from "../functions/CleanSudoku";
 import "../styles/styles.css";
 
 const Sudoku = () => {
@@ -24,6 +25,7 @@ const Sudoku = () => {
             array.push([...new Array(9).fill(0)])
         }
         var newArrayWithNumbers = GenerateRandomNumbers(array)
+        CleanSudoku(newArrayWithNumbers)
         setArray([...newArrayWithNumbers])
         setToPlay(true)
     }
