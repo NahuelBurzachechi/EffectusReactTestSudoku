@@ -36,6 +36,14 @@
   color: white;
 }
 
+.sudokuCongratulations{
+  background-color: #7D6E83;
+  width: 300px;
+  height: 130px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
 .sudoku {
     display: grid;
     grid-template-columns: repeat(9, 3vw);
@@ -178,6 +186,14 @@ input:nth-child(n):nth-child(-n+9) {
       width: 300px;
       top: 40vw;
     }
+    .sudokuCongratulations{
+      width: 200px;
+      height: 100px;
+    }
+
+    .sudokuCongratulations{
+      height: 175px;
+    }
   }
 
   @media only screen and (max-width: 270px) {
@@ -185,10 +201,6 @@ input:nth-child(n):nth-child(-n+9) {
       width: 150px;
       top: 50vw;
       left: 50vw;
-    }
-
-    .button {
-      width: 5px;
     }
 
     .sudokuDialog {
