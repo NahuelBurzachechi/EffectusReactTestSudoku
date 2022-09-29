@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/EffectusReactTestSudoku/static/css/main.d28f3331.css",
+    "main.js": "/EffectusReactTestSudoku/static/js/main.71b520dd.js",
+    "static/js/787.969a0879.chunk.js": "/EffectusReactTestSudoku/static/js/787.969a0879.chunk.js",
+    "index.html": "/EffectusReactTestSudoku/index.html",
+    "main.d28f3331.css.map": "/EffectusReactTestSudoku/static/css/main.d28f3331.css.map",
+    "main.71b520dd.js.map": "/EffectusReactTestSudoku/static/js/main.71b520dd.js.map",
+    "787.969a0879.chunk.js.map": "/EffectusReactTestSudoku/static/js/787.969a0879.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d28f3331.css",
+    "static/js/main.71b520dd.js"
+  ]
+}
