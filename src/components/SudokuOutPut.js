@@ -6,7 +6,7 @@ const SudokuOutPut = (props) => {
     return (
         <div className='sudokuOutput'>
             <p>{props.outPutText}</p>
-            <span>{Math.round(props.percentaje) + "%"}</span>
+            <span>{Math.round(props.percentage) + "%"}</span>
         </div>
     )
 }
