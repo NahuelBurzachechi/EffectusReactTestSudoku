@@ -11,7 +11,7 @@ import "../styles/styles.css";
 const Sudoku = () => {
     const [array, setArray] = useState();
     const [toPlay, setToPlay] = useState(false);
-    const [percentajeCount, setPercentajeCount] = useState(0)
+    const [percentageCount, setPercentageCount] = useState(0)
     const [outPutText, setOutPutText] = useState(firstScreenConstants.WELCOMETOSUDOKUEFFECTUS)
     const [isLoading, setIsLoading] = useState(false)
     const [isOpenDialog, setIsOpenDialog] = useState(false)
@@ -43,15 +43,15 @@ const Sudoku = () => {
             array[xPosition][yPosition] = parseInt(value)
         }
         setArray([...array])
-        Percentaje()
+        Percentage()
         return response
     }
 
-    const Percentaje = () => {
+    const Percentage = () => {
         var count = -27
         array.map(x => x.map(y => y !== 0 ? count++ : count += 0))
-        let percentaje = (count * 100) / 54
-        setPercentajeCount(percentaje)
+        let percentage = (count * 100) / 54
+        setPercentageCount(percentage)
     }
 
     const HandleDialogResponse = (response, dialogTextOutPut) => {
@@ -68,7 +68,7 @@ const Sudoku = () => {
             } else{
                 setOutPutText(firstScreenConstants.WELCOMETOSUDOKUEFFECTUS)
             }
-            setPercentajeCount(0)
+            setPercentageCount(0)
         }
         setIsBlured(false)
     }
@@ -82,7 +82,7 @@ const Sudoku = () => {
                     CreateMatrix()
                     setIsLoading(false)
             }, "100")
-            setPercentajeCount(0)
+            setPercentageCount(0)
         } else {
             setIsBlured(true)
             setDialogTextoutPut(dialogText.DIALOGTEXTRESET)
@@ -94,7 +94,7 @@ const Sudoku = () => {
         if(isFinished){
             setOutPutText(firstScreenConstants.WELCOMETOSUDOKUEFFECTUS)
             setToPlay(false)
-            setPercentajeCount(0)
+            setPercentageCount(0)
         } else {
             setIsBlured(true)
             setDialogTextoutPut(dialogText.DIALOGTEXTEXIT)
@@ -106,7 +106,7 @@ const Sudoku = () => {
             array[xPosition][yPosition] = 0
             setArray([...array])
             setOutPutText("It's okey, it's okey, you can try again")
-            Percentaje()
+            Percentage()
     }
     return(
         <div>
@@ -119,7 +119,7 @@ const Sudoku = () => {
                 </div>
             }
             <div className={isBlured ? "sudokuWrapper App-blur" : "sudokuWrapper" }>
-                {Math.round(percentajeCount) === 100 ? 
+                {Math.round(percentageCount) === 100 ? 
                 <div className="sudokuCongratulations">
                     <p>Congratulations!! You win!!</p>
                     <button 
@@ -152,7 +152,7 @@ const Sudoku = () => {
                     </div> :
                 <div>
                     <SudokuOutPut 
-                        percentaje={percentajeCount} 
+                        percentage={percentageCount} 
                         outPutText={outPutText}
                     />
                     <div className="sudoku">
