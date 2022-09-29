@@ -3,12 +3,12 @@ import SudokuInput from "./SudokuInput";
 import SudokuOutPut from "./SudokuOutPut";
 import SudokuRules from "./SudokuRules";
 import SudokuDialog from "./SudokuDialog";
-import {InvalidSudoku} from "../functions/InvalidSudokuFunction";
+import { InvalidSudoku } from "../functions/InvalidSudokuFunction";
 import { GenerateRandomNumbers } from "../functions/GenerateRandomNumbersFunction";
+import { firstScreenConstants, imagesUrl , dialogText } from "../constants/Constants";
 import "../styles/styles.css";
-import {firstScreenConstants, imagesUrl , dialogText} from "../constants/Constants";
 
-const Sudoku = (props) => {
+const Sudoku = () => {
     const [array, setArray] = useState();
     const [toPlay, setToPlay] = useState(false);
     const [percentajeCount, setPercentajeCount] = useState(0)
@@ -27,6 +27,8 @@ const Sudoku = (props) => {
         setArray([...newArrayWithNumbers])
         setToPlay(true)
     }
+
+    
 
     const HandleChangeInput = (value, xPosition, yPosition) => {
         let isFirst = false
@@ -71,16 +73,33 @@ const Sudoku = (props) => {
         setIsBlured(false)
     }
 
-    const HandleResetButton = () => {
-        setIsBlured(true)
-        setDialogTextoutPut(dialogText.DIALOGTEXTRESET)
-        setIsOpenDialog(true)
+    const HandleResetButton = (isFinished) => {
+        if(isFinished){
+            setToPlay(false)
+            setIsLoading(true)
+                setOutPutText(firstScreenConstants.WELCOMETOSUDOKUEFFECTUS)
+                setTimeout(() => {
+                    CreateMatrix()
+                    setIsLoading(false)
+            }, "100")
+            setPercentajeCount(0)
+        } else {
+            setIsBlured(true)
+            setDialogTextoutPut(dialogText.DIALOGTEXTRESET)
+            setIsOpenDialog(true)
+        }
     }
 
-    const HandleExitButton = () => {
-        setIsBlured(true)
-        setDialogTextoutPut(dialogText.DIALOGTEXTEXIT)
-        setIsOpenDialog(true)
+    const HandleExitButton = (isFinished) => {
+        if(isFinished){
+            setOutPutText(firstScreenConstants.WELCOMETOSUDOKUEFFECTUS)
+            setToPlay(false)
+            setPercentajeCount(0)
+        } else {
+            setIsBlured(true)
+            setDialogTextoutPut(dialogText.DIALOGTEXTEXIT)
+            setIsOpenDialog(true)
+        }
     }
 
     const HandleKeyDown = (xPosition, yPosition) => {
@@ -100,7 +119,22 @@ const Sudoku = (props) => {
                 </div>
             }
             <div className={isBlured ? "sudokuWrapper App-blur" : "sudokuWrapper" }>
-                {Math.round(percentajeCount) === 100 ? <div>Congratulations!! You win!!</div> :
+                {Math.round(percentajeCount) === 100 ? 
+                <div className="sudokuCongratulations">
+                    <p>Congratulations!! You win!!</p>
+                    <button 
+                        id='resetButton' 
+                        type="button" 
+                        onClick={() => HandleResetButton(true)}>
+                            Play Again!
+                    </button>
+                    <button 
+                        id='exitButton' 
+                        type="button" 
+                        onClick={() => HandleExitButton(true)}>
+                            Exit
+                    </button>
+                </div> :
                 !toPlay ? isLoading ? <span>Loading...</span> :
                    <div className="first-screen-wrapper">
                        <img 
@@ -136,13 +170,13 @@ const Sudoku = (props) => {
                     <button 
                         id='resetButton' 
                         type="button" 
-                        onClick={() => HandleResetButton()}>
+                        onClick={() => HandleResetButton(false)}>
                             Reset
                     </button>
                     <button 
                         id='exitButton' 
                         type="button" 
-                        onClick={() => HandleExitButton()}>
+                        onClick={() => HandleExitButton(false)}>
                             Exit
                     </button>
                 </div>}  
